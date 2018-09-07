@@ -18,8 +18,9 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -52,6 +53,7 @@ public class Music implements Command {
         guild.getAudioManager().setSendingHandler(new PlayerSendHandler(p));
 
         PLAYERS.put(g, new AbstractMap.SimpleEntry<>(p, m));
+        p.setVolume(10); ///Volume equilibrado para ficar de boa para aumentar ou abaixar
 
         return p;
     }
