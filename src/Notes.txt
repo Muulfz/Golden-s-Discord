@@ -1,0 +1,14 @@
+if(args[0].equalsIgnoreCase("!ping")) {
+            if(!event.getMember().getUser().isBot()) {
+                EmbedBuilder builder = new EmbedBuilder();
+                if(event.getMember().getJDA().getPing() > 200) {
+                    builder.setColor(Color.RED);
+                } else if(event.getMember().getJDA().getPing() >= 90 && event.getMember().getJDA().getPing() <= 200) {
+                    builder.setColor(Color.ORANGE);
+                } else if(event.getMember().getJDA().getPing() <= 89) {
+                    builder.setColor(Color.GREEN);
+                }
+                builder.addField("Ping: " ,  + event.getMember().getJDA().getPing() + " ms" , true );
+                event.getChannel().sendMessage(builder.build()).queue();
+            }
+        }
