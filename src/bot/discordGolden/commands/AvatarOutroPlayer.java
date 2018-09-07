@@ -1,9 +1,7 @@
 package bot.discordGolden.commands;
 
-import bot.discordGolden.Util.STATIC;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.awt.*;
@@ -26,11 +24,19 @@ public class AvatarOutroPlayer implements Command {
             target = event.getMessage().getMentionedMembers().get(0);
         }
         EmbedBuilder Avatar = new EmbedBuilder();
-        Avatar.setColor(Color.CYAN);
-        Avatar.setTitle("Avatar");
-        Avatar.setImage(target.getUser().getAvatarUrl());
-        Avatar.setFooter( "Pedido por: " + event.getAuthor().getName() + "  " + adf.format(date), event.getMember().getUser().getAvatarUrl());
-        event.getChannel().sendMessage(Avatar.build()).queue();
+        if (event.getMessage().getMentionedRoles().size() > 0 || event.getMessage().getMentionedChannels().size() > 0) {
+            Avatar.setColor(Color.RED);
+            Avatar.setTitle("Erro");
+            Avatar.setDescription("Groupos e Salas não tem avatar");
+            event.getChannel().sendMessage(Avatar.build()).queue();
+        } else {
+            Avatar.setColor(Color.CYAN);
+            Avatar.setTitle("Avatar");
+            Avatar.setImage(target.getUser().getAvatarUrl());
+            Avatar.setFooter("Pedido por: " + event.getAuthor().getName() + "  " + adf.format(date), event.getMember().getUser().getAvatarUrl());
+            event.getChannel().sendMessage(Avatar.build()).queue();
+        }
+
     }
 
     @Override
