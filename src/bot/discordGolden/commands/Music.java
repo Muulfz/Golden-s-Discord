@@ -147,6 +147,11 @@ public class Music implements Command {
         getPlayer(g).stopTrack();
     }
 
+    //Coloca um volume no bot
+    private void volume(Guild g, int v) {
+        getPlayer(g).setVolume(v);
+    }
+
     /**
      * Erzeugt aus dem Timestamp in Millisekunden ein hh:mm:ss - Zeitformat.
      * @param milis Timestamp
@@ -216,11 +221,42 @@ public class Music implements Command {
 
                 String input = Arrays.stream(args).skip(1).map(s -> " " + s).collect(Collectors.joining()).substring(1);
 
-                if (!(input.startsWith("http://") || input.startsWith("https://")))
-                    input = "ytsearch: " + input;
-
+                if (!(input.startsWith("http://") || input.startsWith("https://"))) {
+                    event.getTextChannel().sendMessage(
+                            new EmbedBuilder()
+                                    .setColor(447375)
+                                    .setDescription("Procurando musica com nome " + input)
+                                    .build()
+                    ).queue();
+                }
+                input = "ytsearch: " + input;
                 loadTrack(input, event.getMember(), event.getMessage());
 
+                break;
+            case "volume":
+            case "v":
+
+                if (args.length > 2) {
+                    sendErrorMsg(event, "Por favor insira valor valido entre 0 a 100!");
+                    return;
+                }
+
+                String text = Arrays.stream(args).skip(1).map(s -> " " + s).collect(Collectors.joining()).substring(1);
+                int volume = Integer.parseInt(text);
+
+                if (!(volume < 100 || volume > 0)) {
+                    event.getTextChannel().sendMessage(
+                            new EmbedBuilder().setColor(Color.RED).setDescription("Valor Invalido").build()
+                    ).queue();
+                } else {
+                    volume(guild, volume);
+                    event.getTextChannel().sendMessage(
+                            new EmbedBuilder()
+                                    .setColor(447375)
+                                    .setDescription("Volume da musica alterado para " + volume + "%")
+                                    .build()
+                    ).queue();
+                }
                 break;
 
 
@@ -230,6 +266,12 @@ public class Music implements Command {
                 if (isIdle(guild)) return;
                 for (int i = (args.length > 1 ? Integer.parseInt(args[1]) : 1); i == 1; i--) {
                     skip(guild);
+                    event.getTextChannel().sendMessage(
+                            new EmbedBuilder()
+                                    .setColor(447375)
+                                    .setDescription("A musica atual foi pulada")
+                                    .build()
+                    ).queue();
                 }
 
                 break;
