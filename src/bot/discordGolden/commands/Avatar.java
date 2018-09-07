@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.awt.*;
 
+@Deprecated
 public class Avatar implements Command {
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {

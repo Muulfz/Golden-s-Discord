@@ -21,9 +21,10 @@ public class AvatarOutroPlayer implements Command {
     public void action(String[] args, MessageReceivedEvent event) {
         SimpleDateFormat adf = new SimpleDateFormat("EEEE " + "hh:mm a");
         Date date = new Date(System.currentTimeMillis());
-
-        Member target = event.getMessage().getMentionedMembers().get(0);
-
+        Member target = event.getMember();
+        if (event.getMessage().getMentionedMembers().size() > 0) {
+            target = event.getMessage().getMentionedMembers().get(0);
+        }
         EmbedBuilder Avatar = new EmbedBuilder();
         Avatar.setColor(Color.CYAN);
         Avatar.setTitle("Avatar");
