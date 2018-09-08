@@ -110,7 +110,6 @@ public class Music implements Command {
 
         Guild guild = author.getGuild();
         getPlayer(guild);
-
         MANAGER.setFrameBufferDuration(5000);
         MANAGER.loadItemOrdered(guild, identifier, new AudioLoadResultHandler() {
 
@@ -121,8 +120,12 @@ public class Music implements Command {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                for (int i = 0; i < (playlist.getTracks().size() > PLAYLIST_LIMIT ? PLAYLIST_LIMIT : playlist.getTracks().size()); i++) {
-                    getManager(guild).queue(playlist.getTracks().get(i), author);
+                if (identifier.contains("-playlist")) {
+                    for (int i = 0; i < (playlist.getTracks().size() > PLAYLIST_LIMIT ? PLAYLIST_LIMIT : playlist.getTracks().size()); i++) {
+                        getManager(guild).queue(playlist.getTracks().get(i), author);
+                    }
+                } else {
+                    getManager(guild).queue(playlist.getTracks().get(1), author);
                 }
             }
 
@@ -221,15 +224,18 @@ public class Music implements Command {
 
                 String input = Arrays.stream(args).skip(1).map(s -> " " + s).collect(Collectors.joining()).substring(1);
 
-                if (!(input.startsWith("http://") || input.startsWith("https://"))) {
+                if ((input.startsWith("http://") || input.startsWith("https://"))) {
+                    input = "ytsearch: " + input;
+                } else {
                     event.getTextChannel().sendMessage(
                             new EmbedBuilder()
                                     .setColor(447375)
                                     .setDescription("Procurando musica com nome " + input)
                                     .build()
                     ).queue();
+                    input = "ytsearch: " + input;
                 }
-                input = "ytsearch: " + input;
+
                 loadTrack(input, event.getMember(), event.getMessage());
 
                 break;
@@ -242,7 +248,19 @@ public class Music implements Command {
                 }
 
                 String text = Arrays.stream(args).skip(1).map(s -> " " + s).collect(Collectors.joining()).substring(1);
-                int volume = Integer.parseInt(text);
+                text = text.replace("%", "");
+                int volume = 10;
+                try {
+                    volume = Integer.parseInt(text);
+                } catch (NumberFormatException ex) {
+                    event.getTextChannel().sendMessage(
+                            new EmbedBuilder()
+                                    .setColor(Color.RED)
+                                    .setDescription("Formato invalido!")
+                                    .build()
+                    ).queue();
+                    break;
+                }
 
                 if (!(volume < 100 || volume > 0)) {
                     event.getTextChannel().sendMessage(
