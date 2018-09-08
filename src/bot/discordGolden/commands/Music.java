@@ -120,12 +120,29 @@ public class Music implements Command {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
+                AudioTrack track = playlist.getTracks().get(1);
                 if (identifier.contains("-playlist")) {
+                    msg.getTextChannel().sendMessage(
+                            new EmbedBuilder()
+                                    .setColor(447375)
+                                    .setDescription("**Playlist:**")
+                                    .addField("Criando playlist apartir de ", track.getInfo().title, false)
+                                    .build()
+                    ).queue();
                     for (int i = 0; i < (playlist.getTracks().size() > PLAYLIST_LIMIT ? PLAYLIST_LIMIT : playlist.getTracks().size()); i++) {
                         getManager(guild).queue(playlist.getTracks().get(i), author);
                     }
                 } else {
                     getManager(guild).queue(playlist.getTracks().get(1), author);
+                    msg.getTextChannel().sendMessage(
+                            new EmbedBuilder()
+                                    .setColor(447375)
+                                    .setDescription("**Adicionado a lista:**")
+                                    .addField("Título", track.getInfo().title, false)
+                                    .addField("Duração", "` " + getTimestamp(track.getDuration()) + " `", false)
+                                    .addField("Autor", track.getInfo().author, false)
+                                    .build()
+                    ).queue();
                 }
             }
 
@@ -360,12 +377,11 @@ public class Music implements Command {
                                 .setColor(Color.ORANGE)
                                 .setDescription(
                                         "**QUEUE ATUAL:**\n" +
-                                                "*[" + getManager(guild).getQueue().stream() + " Tracks | Side " + sideNumb + " / " + sideNumbAll + "]* " + "\n \n " + " **Now Playing!** \n " +
+                                                "*[ Tracks | Side " + sideNumb + " / " + sideNumbAll + "]* " + "\n \n " + " **Now Playing!** \n " +
                                                 out
                                 )
                                 .build()
                 ).queue();
-
 
                 break;
         }
