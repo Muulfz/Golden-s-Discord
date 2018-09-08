@@ -13,15 +13,13 @@ import bot.discordGolden.listeners.WelcomeListener;
 import bot.discordGolden.listeners.commandListener;
 import bot.discordGolden.listeners.readyListener;
 import bot.discordGolden.listeners.voiceListener;
-import net.dv8tion.jda.core.*;
+import net.dv8tion.jda.core.AccountType;
+import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.events.ReadyEvent;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.security.auth.login.LoginException;
-
-import static java.util.Map.entry;
 
 
 public class botMain {
@@ -74,8 +72,8 @@ public class botMain {
         commandHandler.commands.put("hello", new HelloThere());
         commandHandler.commands.put("mute", new MuteCommand());
         commandHandler.commands.put("botinfo", new BotInfo());
-        commandHandler.commands.put("meuavatar", new Avatar());
-        commandHandler.commands.put("avatar", new AvatarOutroPlayer());
+        commandHandler.commands.put("meuavatar", new MeuAvatar());
+        commandHandler.commands.put("avatar", new Avatar());
         commandHandler.commands.put("clear", new Clear());
         commandHandler.commands.put("help", new help());
         commandHandler.commands.put("ping", new ping());

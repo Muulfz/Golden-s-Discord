@@ -6,11 +6,9 @@ package bot.discordGolden.commands;
  * @author GoldenKj
  */
 
-import bot.discordGolden.commands.Command;
 import bot.discordGolden.main.permsCore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
 

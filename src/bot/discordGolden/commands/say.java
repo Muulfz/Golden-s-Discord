@@ -6,8 +6,6 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import java.util.Arrays;
 import java.util.List;
 
-import static javax.swing.UIManager.getInt;
-
 public class say implements Command {
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
@@ -22,8 +20,6 @@ public class say implements Command {
             StringBuilder sb = new StringBuilder();
             argsList.forEach(s -> sb.append(s + " "));
             send(sb.toString(), event);
-
-
         }
     }
 

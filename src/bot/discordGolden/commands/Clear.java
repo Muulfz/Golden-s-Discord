@@ -19,7 +19,6 @@ public class Clear implements Command {
         try {
             return Integer.parseInt(string);
         } catch (Exception e) {
-            e.printStackTrace();
             return 0;
         }
     }
@@ -33,14 +32,20 @@ public class Clear implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
         if (permsCore.check(event) >= 4) {
-            int numb = getInt(args[0]);
-
             if (args.length < 1) {
                 event.getTextChannel().sendMessage(
-                        error.setDescription("Please enter a number of messages you want to delete!").build()
+                        error.setDescription("Argumentos faltando!").build()
+                ).queue();
+                return;
+            }
+            int numb = 0;
+            try {
+                numb = getInt(args[0]);
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                event.getTextChannel().sendMessage(
+                        error.setDescription("Please enter a number  valid of messages you want to delete!").build()
                 ).queue();
             }
-
             if (numb > 1 && numb <= 100) {
 
                 try {

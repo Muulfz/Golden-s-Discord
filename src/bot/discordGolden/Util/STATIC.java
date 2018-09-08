@@ -1,7 +1,5 @@
 package bot.discordGolden.Util;
 
-import java.util.Locale;
-
 /**
  * GoldenKj 2018
  *

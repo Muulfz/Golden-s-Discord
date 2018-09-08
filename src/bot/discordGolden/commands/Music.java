@@ -102,15 +102,17 @@ public class Music implements Command {
     /**
      * Läd aus der URL oder dem Search String einen Track oder eine Playlist
      * in die Queue.
+     *
      * @param identifier URL oder Search String
-     * @param author Member, der den Track / die Playlist eingereiht hat
-     * @param msg Message des Contents
+     * @param author     Member, der den Track / die Playlist eingereiht hat
+     * @param msg        Message des Contents
      */
     private void loadTrack(String identifier, Member author, Message msg) {
 
         Guild guild = author.getGuild();
         getPlayer(guild);
         MANAGER.setFrameBufferDuration(5000);
+        System.out.println(identifier);
         MANAGER.loadItemOrdered(guild, identifier, new AudioLoadResultHandler() {
 
             @Override
@@ -242,7 +244,7 @@ public class Music implements Command {
                 String input = Arrays.stream(args).skip(1).map(s -> " " + s).collect(Collectors.joining()).substring(1);
 
                 if ((input.startsWith("http://") || input.startsWith("https://"))) {
-                    input = "ytsearch: " + input;
+                    input = input;
                 } else {
                     event.getTextChannel().sendMessage(
                             new EmbedBuilder()
@@ -251,6 +253,7 @@ public class Music implements Command {
                                     .build()
                     ).queue();
                     input = "ytsearch: " + input;
+                    System.out.println(input);
                 }
 
                 loadTrack(input, event.getMember(), event.getMessage());
@@ -284,6 +287,8 @@ public class Music implements Command {
                             new EmbedBuilder().setColor(Color.RED).setDescription("Valor Invalido").build()
                     ).queue();
                 } else {
+                    if (volume > 100)
+                        volume = 100;
                     volume(guild, volume);
                     event.getTextChannel().sendMessage(
                             new EmbedBuilder()
@@ -369,7 +374,7 @@ public class Music implements Command {
                 else
                     trackSublist = tracks;
 
-                String out = trackSublist.stream().collect(Collectors.joining("\n"));
+                String out = String.join("\n", trackSublist);
                 int sideNumbAll = tracks.size() >= 20 ? tracks.size() / 20 : 1;
 
                 event.getTextChannel().sendMessage(

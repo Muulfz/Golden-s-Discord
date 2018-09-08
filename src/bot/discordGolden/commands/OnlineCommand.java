@@ -6,12 +6,10 @@ package bot.discordGolden.commands;
  * @author GoldenKj
  */
 
-import bot.discordGolden.Util.STATIC;
 import bot.discordGolden.main.permsCore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class OnlineCommand extends ListenerAdapter implements Command {
