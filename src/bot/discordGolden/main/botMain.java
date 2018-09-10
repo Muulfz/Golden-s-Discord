@@ -77,8 +77,8 @@ public class botMain {
         commandHandler.commands.put("clear", new Clear());
         commandHandler.commands.put("help", new help());
         commandHandler.commands.put("ping", new ping());
-        commandHandler.commands.put("perfil", new Perfil());
         commandHandler.commands.put("say", new say());
+        commandHandler.commands.put("clima", new Weather());
         commandHandler.commands.put("xp", new Xp());
         commandHandler.commands.put("music", new Music());
         commandHandler.commands.put("m", new Music());

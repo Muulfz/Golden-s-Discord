@@ -153,6 +153,23 @@
             <artifactId>graphviz-java</artifactId>
             <version>0.2.4-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.prominence</groupId>
+            <artifactId>openweathermap-api</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.49</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.2</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
 </project>
