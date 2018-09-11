@@ -8,4 +8,6 @@ package bot.discordGolden.Util;
 
 public class SECRETS {
 
+    public static final String TOKEN = "yourTokenHere";
+
 }
