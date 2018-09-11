@@ -2,6 +2,7 @@ package bot.discordGolden.commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -15,14 +16,49 @@ import java.util.concurrent.TimeUnit;
 
 public class TempMuteCommand implements Command {
 
+    @Override
+    public boolean called(String[] args, MessageReceivedEvent event) {
+        return false;
+    }
+
+    @Override
+    public void action(String[] args, MessageReceivedEvent event) {
+        if (args.length <= 2) {
+            sendErrorMessage(event.getChannel(), event.getMember());
+        } else {
+            Member target = event.getMessage().getMentionedMembers().get(0);
+            tempmute(target, parseTimeAmount(args[2]), parseTimeUnit(args[2]));
+            if (args.length >= 4) {
+                String reason = "";
+                for (int i = 3; i < args.length; i++) {
+                    reason += args[i] + " ";
+                }
+                log(target, event.getMember(), reason, event.getGuild().getTextChannelById("484773329849417738"));
+            } else {
+                log(target, event.getMember(), "", event.getGuild().getTextChannelById("484773329849417738"));
+            }
+        }
+    }
+
+    @Override
+    public void executed(boolean success, MessageReceivedEvent event) {
+        System.out.println("[INFOMATION] '!tempMute' Command was used! By: " + event.getAuthor().getName());
+    }
+
+    @Override
+    public String help() {
+        return null;
+    }
+
+
     int counter = 0;
 
-    public void sendErrorMessage(TextChannel channel, Member member) {
+    public void sendErrorMessage(MessageChannel channel, Member member) {
         EmbedBuilder error = new EmbedBuilder();
         error.setTitle("Uso Inválido!");
         error.setAuthor(member.getUser().getName(), member.getUser().getAvatarUrl(), member.getUser().getAvatarUrl());
         error.setColor(Color.RED);
-        error.setDescription("**Uso Correto:** !tempMute {@user} {time (ex: 48h)} {reason}");
+        error.setDescription("**Uso Correto:** !tempMute {@user} {time (ex: 48s ou m)} {reason}");
         channel.sendMessage(error.build()).complete().delete().queueAfter(11, TimeUnit.SECONDS);
     }
 
@@ -113,37 +149,5 @@ public class TempMuteCommand implements Command {
         }
     }
 
-    @Override
-    public boolean called(String[] args, MessageReceivedEvent event) {
-        return false;
-    }
 
-    @Override
-    public void action(String[] args, MessageReceivedEvent event) {
-        if (args.length <= 2) {
-            sendErrorMessage((TextChannel) event.getChannel(), event.getMember());
-        } else {
-            Member target = event.getMessage().getMentionedMembers().get(0);
-            tempmute(target, parseTimeAmount(args[2]), parseTimeUnit(args[2]));
-            if (args.length >= 4) {
-                String reason = "";
-                for (int i = 3; i < args.length; i++) {
-                    reason += args[i] + " ";
-                    log(target, event.getMember(), reason, event.getGuild().getTextChannelById("484773329849417738"));
-                }
-            } else {
-                log(target, event.getMember(), "", event.getGuild().getTextChannelById("484773329849417738"));
-            }
-        }
-    }
-
-    @Override
-    public void executed(boolean success, MessageReceivedEvent event) {
-        System.out.println("[INFOMATION] '!tempMute' Command was used! By: " + event.getAuthor().getName());
-    }
-
-    @Override
-    public String help() {
-        return null;
-    }
 }

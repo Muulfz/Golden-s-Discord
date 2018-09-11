@@ -9,6 +9,10 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.awt.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class Weather implements Command {
@@ -39,29 +43,41 @@ public class Weather implements Command {
 
                 EmbedBuilder clima = new EmbedBuilder();
                 clima.setColor(Color.CYAN);
-                clima.setAuthor(weatherResponse.getCityName() + ", " + weatherResponse.getCountry(), event.getAuthor().getAvatarUrl(), event.getAuthor().getAvatarUrl());
+                clima.setAuthor(weatherResponse.getCityName() + ", " + weatherResponse.getCountry(), "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/emojione/151/world-map_1f5fa.png", "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/emojione/151/world-map_1f5fa.png");
                 clima.setDescription("**Unidade:** " + weatherResponse.getTemperatureUnit() + "\n");
                 clima.appendDescription("**Latitude:** " + weatherResponse.getCoordinates().getLatitude() + "\n");
                 clima.appendDescription("**Longitude:** " + weatherResponse.getCoordinates().getLongitude() + "\n");
                 clima.appendDescription("\n");
-                clima.appendDescription("**Temp:** " + weatherResponse.getTemperature() + "\n");
+                clima.appendDescription("**Temperatura:** " + weatherResponse.getTemperature() + "\n");
+                clima.appendDescription("**Temp Max:** " + weatherResponse.getWeatherInfo().getMaximumTemperature() + "\n");
+                clima.appendDescription("**Temp Min:** " + weatherResponse.getWeatherInfo().getMinimumTemperature() + "\n");
                 if (weatherResponse.getRain() == null) {
                     clima.appendDescription("**Chuva:** " + "Não está chovendo." + "\n");
+                    clima.appendDescription("**Neve:** " + "Não está nevando." + "\n");
                 } else {
                     clima.appendDescription("**Chuva:** " + weatherResponse.getRain() + "\n");
+                    clima.appendDescription("**Volume de chuva nas ultimas 3 horas:** " + weatherResponse.getRain().getRainVolumeLast3Hrs() + "\n");
+                    clima.appendDescription("**Neve:** " + weatherResponse.getSnow() + "\n");
+                    clima.appendDescription("**Volume de neve nas ultimas 3 horas:** " + weatherResponse.getSnow().getSnowVolumeLast3Hrs() + "\n");
                 }
-                clima.appendDescription("**Vento:** " + weatherResponse.getWind() + "\n");
+                double vento = weatherResponse.getWind().getSpeed() * 3.6;
+                NumberFormat formatter = new DecimalFormat("#0.00");
+                clima.appendDescription("**Vento:** " + formatter.format(vento) + " km/h" + "\n");
                 clima.appendDescription("\n");
-                clima.appendDescription("**Humidade:** " + weatherResponse.getHumidityPercentage() + " %" + "\n");
-                clima.appendDescription("****" + weatherResponse.getDataCalculationDate() + "\n");
+                clima.appendDescription("**Umidade:** " + weatherResponse.getHumidityPercentage() + " %" + "\n");
+                clima.appendDescription("**Pressão atmosférica** " + weatherResponse.getWeatherInfo().getPressure() + " mb" + "\n");
+                clima.appendDescription("**Calculado em: **" + weatherResponse.getDataCalculationDate().toLocaleString() + "\n");
+                clima.setFooter("Pedido por: " + event.getAuthor().getName() + " • " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEEE" + " hh:mm a ")), event.getAuthor().getAvatarUrl());
                 event.getChannel().sendMessage(clima.build()).queue();
             } catch (NullPointerException | com.github.prominence.openweathermap.api.exception.DataNotFoundException e) {
-                event.getChannel().sendMessage("Coloque nome de uma cidade valida.").queue();
+                EmbedBuilder descriptionError = new EmbedBuilder();
+                descriptionError.setColor(Color.RED);
+                descriptionError.setDescription("Coloque nome de uma cidade valida.");
+                descriptionError.setFooter("Pedido por: " + event.getAuthor().getName() + " • " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEEE" + " hh:mm a ")), event.getAuthor().getAvatarUrl());
+                event.getChannel().sendMessage(descriptionError.build()).queue();
             }
 
         }
-
-
 
 
     }

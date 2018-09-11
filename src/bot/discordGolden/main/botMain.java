@@ -7,6 +7,7 @@ package bot.discordGolden.main;
  */
 
 import bot.discordGolden.ExpSystem.ExpSystem;
+import bot.discordGolden.Util.SECRETS;
 import bot.discordGolden.Util.STATIC;
 import bot.discordGolden.commands.*;
 import bot.discordGolden.listeners.WelcomeListener;
@@ -28,7 +29,7 @@ public class botMain {
     public static void main(String[] args) {
         bot = new JDABuilder(AccountType.BOT);
 
-        bot.setToken("NDg0MDYxOTE2MTYwMDY1NTQ3.DnGXEQ.8VprQtuua3uE44aujZ_3kbYFrR0");
+        bot.setToken(SECRETS.TOKEN);
         bot.setAutoReconnect(true);
         bot.setStatus(OnlineStatus.ONLINE);
 
@@ -67,7 +68,7 @@ public class botMain {
 
     public static void addCommands() {
 
-//        commandHandler.commands.put("tempMute", new TempMuteCommand());
+        commandHandler.commands.put("tempMute", new TempMuteCommand());
         commandHandler.commands.put("online", new OnlineCommand());
         commandHandler.commands.put("hello", new HelloThere());
         commandHandler.commands.put("mute", new MuteCommand());

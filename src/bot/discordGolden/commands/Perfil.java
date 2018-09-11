@@ -51,7 +51,7 @@ public class Perfil implements Command {
         for(int i = 0; i < event.getMember().getRoles().size(); i++){
             Perfil.appendDescription( "`" + event.getMember().getRoles().get(i).getName() + "`" + "\n");
         }
-        Perfil.setFooter("Pedido por: " + event.getAuthor().getName() + "  -  " +  LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEEE" + " hh:mm a ")), event.getMember().getUser().getAvatarUrl());
+        Perfil.setFooter("Pedido por: " + event.getAuthor().getName() + " • " +  LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEEE" + " hh:mm a ")), event.getMember().getUser().getAvatarUrl());
         event.getChannel().sendMessage(Perfil.build()).queue();
 
     }

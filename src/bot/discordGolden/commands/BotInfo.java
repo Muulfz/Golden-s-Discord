@@ -20,7 +20,7 @@ public class BotInfo implements Command {
         botInfo.addField("Minha versão: ", STATIC.VERSION , false);
         botInfo.addField("Meu desenvolvedor:", event.getGuild().getMemberById("206914118731431937").getAsMention() + " @_zentrynetwork.", false);
         botInfo.addField("Inicio de meu desenvolvimento: ", "Terça-Feira, Setembro 4, 2018 as 9:17:36 PM", false);
-        botInfo.addField("Data de entrada:", event.getGuild().getMemberById("484061916160065547").getJoinDate().format(DateTimeFormatter.ofPattern("hh:mm:ss " + "dd/MM/yyyy")) , false);
+        botInfo.addField("Data de entrada:", event.getGuild().getMemberById("484061916160065547").getJoinDate().format(DateTimeFormatter.ofPattern("EEEE " + "hh:mm a " + "dd/MM/yyyy")) , false);
         botInfo.setThumbnail(event.getGuild().getMemberById("484061916160065547").getUser().getAvatarUrl());
         event.getMessage().getChannel().sendMessage(botInfo.build()).queue();
     }

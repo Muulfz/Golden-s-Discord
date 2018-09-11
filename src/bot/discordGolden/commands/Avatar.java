@@ -36,7 +36,7 @@ public class Avatar implements Command {
             else
                 Avatar.setTitle("Avatar de " + event.getMessage().getMentionedMembers().get(0).getEffectiveName());
             Avatar.setImage(target.getUser().getAvatarUrl());
-            Avatar.setFooter("Pedido por: " + event.getAuthor().getName() + "  " + adf.format(date), event.getMember().getUser().getAvatarUrl());
+            Avatar.setFooter("Pedido por: " + event.getAuthor().getName() + " • " + adf.format(date), event.getMember().getUser().getAvatarUrl());
             event.getChannel().sendMessage(Avatar.build()).queue();
         }
 

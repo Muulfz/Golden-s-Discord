@@ -30,6 +30,7 @@ public class help implements Command {
         help.appendDescription("`!perfil` - Mostra seu perfil." + "\n");
         help.appendDescription("`!clear` - !clear {numero}, o numero será o tanto de mensagens que irão ser apagadas. " + "\n");
         help.appendDescription("`!hello` - Diz Hello {@User} para você." + "\n");
+        help.appendDescription("`!clima` - !clima {@cidade}, mostra o clima da cidade." + "\n");
 
         // Music bot comandos
         help.appendDescription("\n" + "**Music Bot**" + "\n" + "\n");
@@ -47,11 +48,11 @@ public class help implements Command {
         help.appendDescription("`!online` - Quantos player tem, e quantos estão online no server." + "\n");
         help.appendDescription("`!ping` - Mostra o ping" + "\n");
         help.appendDescription("`!say` - !say {mensagem}, Bot fala por você." + "\n");
-        help.appendDescription("`!tempMute` - `Em Manutenção`" + "\n");
+        help.appendDescription("`!tempMute` - !tempMute {@user} {time (ex: 48s ou m)} {reason}" + "\n");
         help.appendDescription("`!xp` - `Em Manutenção`" + "\n");
 
         // Footer do !Help
-        help.setFooter(event.getGuild().getMemberById("484061916160065547").getUser().getName() + "  " + adf.format(date), event.getGuild().getMemberById("484061916160065547").getUser().getAvatarUrl());
+        help.setFooter(event.getGuild().getMemberById("484061916160065547").getUser().getName() + " • " + adf.format(date), event.getGuild().getMemberById("484061916160065547").getUser().getAvatarUrl());
 
         // Mensagem que é enviada.
         event.getChannel().sendMessage(help.build()).queue();
